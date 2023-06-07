@@ -1,0 +1,27 @@
+name: 'bump node version'
+description: 'this action will bump version of npm based library/package. it will work against the aws codeartifact registry and not against the package.json'
+inputs:
+  aws-role-arn:  # id of input
+    description: 'aws role which allows to list packages and versions in aws codeartifact'
+    required: true
+    default: ''
+  codeartifact-auth-token:
+    description: 'please provide the codeartifact auth token'
+    required: true
+    default: ''
+outputs:
+  random-number:
+    description: "Random number"
+    value: ${{ steps.random-number-generator.outputs.random-number }}
+runs:
+  using: "composite"
+  steps:
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        role-to-assume: ${{ inputs.aws-role-arn }}
+        aws-region: eu-west-1
+    - run: bump.version.sh
+      env:
+        CODEARTIFACT_AUTH_TOKEN: ${{ inputs.codeartifact-auth-token }}
+      shell: bash
