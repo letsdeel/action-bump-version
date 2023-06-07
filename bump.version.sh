@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 # script to bump version automatically
 # require login to aws codeartifact
 
