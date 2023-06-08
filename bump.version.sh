@@ -20,12 +20,7 @@ minor=${splitversion[1]}
 patch=${splitversion[2]}
 
 # support both cli and drone pipeline
-if [ -z ${CI_COMMIT_BRANCH+x} ]
-then
-	branch=$(git branch --show-current)
-else
-	branch=${CI_COMMIT_BRANCH}
-fi
+branch=$(git branch --show-current)
 
 # get version from registry according to branch
 

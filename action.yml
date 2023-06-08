@@ -1,14 +1,5 @@
 name: 'bump node version'
 description: 'this action will bump version of npm based library/package. it will work against the aws codeartifact registry and not against the package.json'
-inputs:
-  aws-role-arn:  # id of input
-    description: 'aws role which allows to list packages and versions in aws codeartifact'
-    required: true
-    default: ''
-  codeartifact-auth-token:
-    description: 'please provide the codeartifact auth token'
-    required: true
-    default: ''
 outputs:
   random-number:
     description: "Random number"
