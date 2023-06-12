@@ -19,10 +19,16 @@ major=${splitversion[0]}
 minor=${splitversion[1]}
 patch=${splitversion[2]}
 
-# support both cli and drone pipeline
 branch=$(git branch --show-current)
 
 # get version from registry according to branch
+
+aws codeartifact list-package-versions --domain npm --repository npm-dev --format npm   --package $package_name --namespace letsdeel
+if [ $? == 254 ] ; then
+	echo "package $package_name does not exist in registry"
+	echo "using current version ${major}.${minor}.${patch}"
+	exit 0
+fi
 
 if [ "${branch}" == "dev" ] || [ "${branch}" == "master" ]
 then
