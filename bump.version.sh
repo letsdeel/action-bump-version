@@ -23,7 +23,7 @@ branch=$(git branch --show-current)
 
 # get version from registry according to branch
 
-aws codeartifact list-package-versions --domain npm --repository npm-dev --format npm   --package $package_name --namespace letsdeel
+aws codeartifact list-package-versions --domain npm --repository npm-dev --format npm   --package $package_name --namespace letsdeel > /dev/null 2>&1
 if [ $? == 254 ] ; then
 	echo "package $package_name does not exist in registry"
 	echo "using current version ${major}.${minor}.${patch}"
