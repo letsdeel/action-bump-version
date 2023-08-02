@@ -11,6 +11,7 @@ namespace=$(jq -r ".name" package.json | tr -d "@" | awk -F/ '{print $1}')
 package_name=$(jq -r ".name" package.json | tr -d "@" | awk -F/ '{print $2}')
 fullname="@${namespace}/${package_name}"
 saved=$IFS
+firsttimer=false
 # get local package version
 IFS='.' read -r -a splitversion <<< "$(jq -r .version ./package.json)"
 IFS=$saved
@@ -21,9 +22,44 @@ patch=${splitversion[2]}
 
 branch=$(git branch --show-current)
 
-# get version from registry according to branch
 
-aws codeartifact list-package-versions --domain npm --repository npm-dev --format npm   --package $package_name --namespace letsdeel > /dev/null 2>&1
+function is_firsttimer()
+{
+	# check if package exists in registry
+	aws codeartifact list-packages \
+		--domain npm \
+		--region eu-west-1 \
+		--repository npm-dev \
+		--package-prefix $package_name \
+		--namespace letsdeel \
+		--format npm  > /dev/null 2>&1
+	if [ $? != 0 ] ; then
+		echo "package does not exist in registry. first timer?"
+		echo "no worries, I got you covered!"
+		echo "using version: $major.$minor.$patch"
+		# using the current version in package.json
+		npm version "${major}.${minor}.${patch}" \
+			--git-tag-version=false \
+			--commit-hooks=false \
+			--allow-same-version \
+			-m "[CI SKIP] Automatically bumped version to %s" \
+			--force
+		exit 0
+	else
+		echo "failed to update version: $?"
+		exit -1
+	fi
+}
+
+is_firsttimer
+
+# get version from registry according to branch
+aws codeartifact list-package-versions \
+	--domain npm \
+	--repository npm-dev \
+	--format npm   \
+	--package $package_name \
+	--namespace letsdeel > /dev/null 2>&1
 if [ $? == 254 ] ; then
 	echo "package $package_name does not exist in registry"
 	echo "using current version ${major}.${minor}.${patch}"
@@ -81,3 +117,4 @@ else
 	fi
 fi
 
+exit 0
