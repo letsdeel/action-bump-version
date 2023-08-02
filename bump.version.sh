@@ -45,10 +45,6 @@ function is_firsttimer()
 			-m "[CI SKIP] Automatically bumped version to %s" \
 			--force
 		exit 0
-	else
-		echo "failed to update version: $?"
-		exit 0
-	fi
 }
 
 is_firsttimer
