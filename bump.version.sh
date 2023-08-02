@@ -26,14 +26,14 @@ branch=$(git branch --show-current)
 function is_firsttimer()
 {
 	# check if package exists in registry
-	aws codeartifact list-packages \
+	n=$(aws codeartifact list-packages \
 		--domain npm \
 		--region eu-west-1 \
 		--repository npm-dev \
 		--package-prefix $package_name \
 		--namespace letsdeel \
-		--format npm  > /dev/null 2>&1
-	if [ $? != 0 ] ; then
+		--format npm | jq -r ".packages[].package")
+	if [ -z $n ] ; then
 		echo "package does not exist in registry. first timer?"
 		echo "no worries, I got you covered!"
 		echo "using version: $major.$minor.$patch"
@@ -47,7 +47,7 @@ function is_firsttimer()
 		exit 0
 	else
 		echo "failed to update version: $?"
-		exit -1
+		exit 0
 	fi
 }
 
