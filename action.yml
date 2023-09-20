@@ -1,5 +1,12 @@
 name: 'bump node version'
 description: 'this action will bump version of npm based library/package. it will work against the aws codeartifact registry and not against the package.json'
+inputs:
+  aws-role-arn:
+    description: 'AWS Role ARN'
+    required: true
+  codeartifact-auth-token:
+    description: 'CodeArtifact Authentication Token'
+    required: true
 outputs:
   random-number:
     description: "Random number"
@@ -11,3 +18,6 @@ runs:
       shell: bash
     - run: bump.version.sh
       shell: bash
+      env: # Pass the inputs to the environment variables so that the script can access them
+        AWS_ROLE_ARN: ${{ inputs.aws-role-arn }}
+        CODEARTIFACT_AUTH_TOKEN: ${{ inputs.codeartifact-auth-token }}
