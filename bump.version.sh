@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 # script to bump version automatically
 # require login to aws codeartifact
 
@@ -91,6 +91,7 @@ then
 	fi
 else
 	last_patch=$(aws codeartifact list-package-versions \
+		--region eu-west-1 \
 		--domain npm \
 		--repository npm-dev \
 		--format npm \
