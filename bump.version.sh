@@ -2,10 +2,6 @@
 # script to bump version automatically
 # require login to aws codeartifact
 
-export CODEARTIFACT_AUTH_TOKEN=$1
-cat ~/.aws/c*
-echo $AWS_PROFILE
-cat .npmrc
 if [ ! -f ./package.json ]
 then
 	echo "file package.json does not exist"
@@ -72,6 +68,7 @@ then
 	last_minor=$(aws codeartifact list-package-versions \
 		--region eu-west-1 \
 		--domain npm \
+		--domain-owner 974360507615 \
 		--repository npm-dev \
 		--format npm \
 		--package $package_name \
