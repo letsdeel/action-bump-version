@@ -16,7 +16,7 @@ runs:
   steps:
     - run: echo "${{ github.action_path }}" >> $GITHUB_PATH
       shell: bash
-    - run: bump.version.sh ${{ inputs.codeartifact-auth-token }}
+    - run: bump.version.sh
       shell: bash
       env: # Pass the inputs to the environment variables so that the script can access them
         AWS_ROLE_ARN: ${{ inputs.aws-role-arn }}

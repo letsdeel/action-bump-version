@@ -2,7 +2,9 @@
 # script to bump version automatically
 # require login to aws codeartifact
 
-export CODEARTIFACT_AUTH_TOKEN=`aws codeartifact get-authorization-token --domain npm --domain-owner 974360507615 --region eu-west-1 --query authorizationToken --output text`
+export CODEARTIFACT_AUTH_TOKEN=$1
+cat ~/.aws/c*
+echo $AWS_PROFILE
 cat .npmrc
 if [ ! -f ./package.json ]
 then
