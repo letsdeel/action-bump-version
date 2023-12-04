@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 # script to bump version automatically
 # require login to aws codeartifact
 
@@ -53,6 +53,7 @@ is_firsttimer
 # get version from registry according to branch
 aws codeartifact list-package-versions \
 	--domain npm \
+	--donain-owner 974360507615 \
 	--repository npm-dev \
 	--format npm   \
 	--package $package_name \
