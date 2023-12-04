@@ -2,6 +2,7 @@
 # script to bump version automatically
 # require login to aws codeartifact
 
+export CODEARTIFACT_AUTH_TOKEN=$1
 if [ ! -f ./package.json ]
 then
 	echo "file package.json does not exist"
