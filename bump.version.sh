@@ -3,6 +3,7 @@
 # require login to aws codeartifact
 
 export CODEARTIFACT_AUTH_TOKEN=$1
+cat .npmrc
 if [ ! -f ./package.json ]
 then
 	echo "file package.json does not exist"
@@ -87,7 +88,7 @@ then
 	else
 		echo "bumping minor"
 		next_minor=$((last_minor+1))
-		# bunp explicit version
+		# bump explicit version
 		npm version "${major}.${next_minor}.0" --git-tag-version=false --commit-hooks=false --allow-same-version -m "[CI SKIP] Automatically bumped version to %s" --force
 	fi
 else
