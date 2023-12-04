@@ -67,6 +67,7 @@ fi
 if [ "${branch}" == "dev" ] || [ "${branch}" == "master" ]
 then
 	last_minor=$(aws codeartifact list-package-versions \
+		--region eu-west-1 \
 		--domain npm \
 		--repository npm-dev \
 		--format npm \
