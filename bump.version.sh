@@ -94,6 +94,7 @@ else
 	last_patch=$(aws codeartifact list-package-versions \
 		--region eu-west-1 \
 		--domain npm \
+		--domain-owner 974360507615 \
 		--repository npm-dev \
 		--format npm \
 		--package $package_name \
