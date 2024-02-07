@@ -32,6 +32,7 @@ function is_firsttimer()
 		--repository npm-dev \
 		--package-prefix $package_name \
 		--namespace letsdeel \
+  		--domain-owner 974360507615 \
 		--format npm | jq -r ".packages[].package")
 	if [ -z $n ] ; then
 		echo "package does not exist in registry. first timer?"
